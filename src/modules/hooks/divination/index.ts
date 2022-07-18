@@ -70,7 +70,7 @@ export class Divination {
 	}
 
 	@boundMethod
-	private async mentionHook(message: queryMessage): Promise<boolean> {
+	private async mentionHook(message: Readonly<queryMessage>): Promise<boolean> {
 		if (message.queryContent.endsWith(`運勢は？`)) {
 			// YYYY/MM/DDにする
 			this.date = dayjs().format('YYYY/MM/DD');
@@ -113,7 +113,7 @@ export class Divination {
 			const key: keyof parsedDivination = eachResults.sign;
 			protoResult[key] = eachResults;
 		});
-		const result: parsedDivination = protoResult as parsedDivination;
+		const result = protoResult as parsedDivination;
 		return result[sign];
 	}
 
@@ -122,7 +122,7 @@ export class Divination {
 	 * @param {divination} divination 運勢(1星座のみ入ってるやつ)
 	 * @return {Promise<MessageEmbed>}
 	 */
-	private async makeEmbed(divination: divination): Promise<MessageEmbed> {
+	private async makeEmbed(divination: Readonly<divination>): Promise<MessageEmbed> {
 		try {
 			const colorEng = await translate({
 				free_api: true,
@@ -133,7 +133,7 @@ export class Divination {
 			});
 			this.luckeyColor = color(colorEng.data.translations[0].text).hex().toUpperCase() as ColorResolvable;
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 			this.luckeyColor = 'WHITE';
 		}
 

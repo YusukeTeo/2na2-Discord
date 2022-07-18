@@ -1,10 +1,10 @@
-name: ESLint
+name: mocha
 on:
   push:
     branches-ignore:
       - main
 jobs:
-  ESLint:
+  mocha:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,5 +15,7 @@ jobs:
           node-version: 18.x
       - name: ci
         run: yarn install --immutable --immutable-cache --check-cache
-      - name: ESLint
-        run: yarn lint
+      - name: build
+        run: yarn build
+      - name: mocha
+        run: yarn test
